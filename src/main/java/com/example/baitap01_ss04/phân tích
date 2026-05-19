@@ -1,0 +1,25 @@
+Phần 1 – Phân tích logic:
+Giải thích tại sao client nhận về chuỗi [Movie@3a1b2c3d, ...] thay vì JSON.
+Nguyên nhân gốc rễ nằm ở đâu trong đoạn code trên?
+
+
+Nguyên nhân client nhận được:
+
+[Movie@3a1b2c3d, Movie@4f2e1a0b]
+
+thay vì JSON là do dòng:
+
+return movies.toString();
+Giải thích:
+movies là một List<Movie>.
+Khi gọi toString(), Java sẽ gọi toString() của từng object Movie.
+Class Movie không override phương thức toString().
+Vì vậy Java dùng toString() mặc định của Object, kết quả có dạng:
+TênClass@địa_chỉ_bộ_nhớ
+
+Ví dụ:
+
+Movie@3a1b2c3d
+Nguyên nhân gốc rễ:
+Sai ở việc trả về String thay vì trả về List<Movie>.
+Spring Boot không có cơ hội dùng Jackson để tự động chuyển object thành JSON.
